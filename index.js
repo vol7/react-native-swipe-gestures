@@ -42,9 +42,9 @@ class GestureRecognizer extends Component {
   }
 
   _handleShouldSetPanResponder(evt, gestureState) {
-    return evt.nativeEvent.touches.length === 1 && !this._gestureIsClick(gestureState);
+    return evt.nativeEvent.touches.length === 1
   }
-  
+
   _gestureIsClick(gestureState) {
     return Math.abs(gestureState.dx) < 5  && Math.abs(gestureState.dy) < 5;
   }
@@ -55,8 +55,8 @@ class GestureRecognizer extends Component {
   }
 
   _triggerSwipeHandlers(swipeDirection, gestureState) {
-    const {onSwipe, onSwipeUp, onSwipeDown, onSwipeLeft, onSwipeRight} = this.props;
-    const {SWIPE_LEFT, SWIPE_RIGHT, SWIPE_UP, SWIPE_DOWN} = swipeDirections;
+    const {onSwipe, onSwipeUp, onSwipeDown, onSwipeLeft, onSwipeRight, onPress} = this.props;
+    const {PRESS, SWIPE_LEFT, SWIPE_RIGHT, SWIPE_UP, SWIPE_DOWN} = swipeDirections;
     onSwipe && onSwipe(swipeDirection, gestureState);
     switch (swipeDirection) {
       case SWIPE_LEFT:
@@ -70,6 +70,9 @@ class GestureRecognizer extends Component {
         break;
       case SWIPE_DOWN:
         onSwipeDown && onSwipeDown(gestureState);
+        break;
+      default: // onPress
+        onPress && onPress();
         break;
     }
   }
